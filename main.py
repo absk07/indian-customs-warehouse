@@ -6,26 +6,33 @@ from staging_zone import create_stage
 from curated_zone import create_curated_zone
 from consumption_zone import create_consumption_zone
 
-my_cursor = db_connect().cursor()
+try:
+    my_cursor = db_connect().cursor()
 
-create_warehouse(my_cursor)
+    create_warehouse(my_cursor)
 
-create_database(my_cursor)
+    create_database(my_cursor)
 
-create_schema(my_cursor)
+    create_schema(my_cursor)
 
-create_stage(my_cursor)
+    create_stage(my_cursor)
 
-# use snowsql to load internal data to staging_zone
+    # use snowsql to load internal data to staging_zone
+    
+    # put file://C:\Users\abhishek\Desktop\IndianCustoms-Import-Export\Data\ImportExport.csv @~/stage_importexport;
+    # put file://C:\Users\abhishek\Desktop\IndianCustoms-Import-Export\Data\type.csv @~/stage_type;
+    # put file://C:\Users\abhishek\Desktop\IndianCustoms-Import-Export\Data\category.json @~/stage_category;
+    # put file://C:\Users\abhishek\Desktop\IndianCustoms-Import-Export\Data\tax.json @~/stage_tax;
 
-# put file://C:\Users\abhishek\Desktop\IndianCustoms-Import-Export\Data\ImportExport.csv @~/stage_importexport;
-# put file://C:\Users\abhishek\Desktop\IndianCustoms-Import-Export\Data\type.csv @~/stage_type;
-# put file://C:\Users\abhishek\Desktop\IndianCustoms-Import-Export\Data\category.json @~/stage_category;
-# put file://C:\Users\abhishek\Desktop\IndianCustoms-Import-Export\Data\tax.json @~/stage_tax;
+    create_curated_zone(my_cursor)
 
-create_curated_zone(my_cursor)
-
-create_consumption_zone(my_cursor)
+    create_consumption_zone(my_cursor)
+except Exception as e:
+    print("############################################################################################")
+    print(e)
+    print("############################################################################################")
+finally:
+    db_connect().close()
 
 # my_cursor.execute('USE DATABASE INDIAN_CUSTOMS;')
 # my_cursor.execute('''
